@@ -6,14 +6,14 @@ function Login() {
 
     const navigate = useNavigate();
 
-    const returnHome = () => {
-        navigate("/");
+    const handleLoginClick = () => {
+        navigate("/home");
     }
 
   return (
     <div>
       <h1>Login Page</h1>
-      <button onClick={returnHome}>Home</button>
+      <button onClick={handleLoginClick}>Log in</button>
     </div>
   );
 }
