@@ -27,6 +27,10 @@ function Home() {
        navigate("/analytics");
    };
 
+   const handleReportClick = () => {
+    navigate("/report");
+};
+
 
    const handleFilterChange = (e) => {
        const { name, value } = e.target;
@@ -169,9 +173,9 @@ function Home() {
            </div>
            <div>
                <h1>Filtering</h1>
-               <button onClick={handleDataVisualClick}>Go To Data Visual</button>
-               <button onClick={handleAnalyticClick}>Go To Analytics</button>
-
+               <button onClick={handleDataVisualClick}>Data Visual</button>
+               <button onClick={handleAnalyticClick}>Analytics</button>
+               <button onClick={handleReportClick}>Export Report</button>
 
                <h2>Data Table</h2>
                {filteredData.length === 0 ? (
