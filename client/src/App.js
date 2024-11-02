@@ -5,7 +5,6 @@ import Login from './pages/Login';
 
 import Home from './pages/Home';
 import Analytics from './pages/Analytics';
-import OpenAI from 'openai';
 import HardcodedChart from './pages/datavisual';
 import Report from './pages/Report';
 

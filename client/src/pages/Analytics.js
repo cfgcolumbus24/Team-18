@@ -1,12 +1,20 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import { useState, useEffect } from 'react';
-import Container from '@mui/material/Container';
-import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
 import { useNavigate } from 'react-router-dom';
+
+//npm install @google/generative-ai
+
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+const genAI = new GoogleGenerativeAI('API_KEY');
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+//Upload the file and specify a display name.
+const uploadResponse = await fileManager.uploadFile("media/gemini.pdf", {
+    mimeType: "application/pdf",
+     displayName: "Gemini 1.5 PDF",
+   }); 
 
 function Analytics() {
 
@@ -19,10 +27,18 @@ function Analytics() {
         navigate("/home");
     }
 
-    const handleMessage = () => {
+    const handleMessage = async () => {
         setMessageHistory([...history, query]);
         console.log(history);
         setQuery('');
+        const result = await model.generateContent([
+            {fileData: {
+                mimeType: uploadResponse.file.mimeType,
+                fileUri: uploadResponse.file.uri,
+               }},
+            {text: prompt},
+        ]);
+        console.log(result);
     }
 
   return (
