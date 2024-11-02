@@ -10,6 +10,7 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 function Analytics() {
     const navigate = useNavigate();
+
     const [query, setQuery] = useState('');
     const [history, setMessageHistory] = useState([]);
     const chatContainerRef = useRef(null);

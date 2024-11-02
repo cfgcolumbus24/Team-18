@@ -15,8 +15,8 @@ function Navbar() {
   return (
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-        <img class="navbar-item is-hoverable" src={require("./netcareLogo.png")} onClick={returnHome}/>
-      </div>
+            <img class="navbar-item is-hoverable" width="300" src={require("./netcareLogo.png")} onClick={returnHome}/>
+        </div>
       <div class="navbar-end">
       <FaRegUserCircle class="navbar-item"/>
       </div>

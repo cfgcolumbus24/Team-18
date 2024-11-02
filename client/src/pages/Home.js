@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
 import Navbar from '../components/Navbar';
 import testData from './testData2.json';
-
+import FileSaver from 'file-saver';
 
 function Home() {
    const navigate = useNavigate();
@@ -25,18 +25,6 @@ function Home() {
        dischargeType: true,
        race: true
    });
-
-
-   // Navigate to data visualization page
-   const handleDataVisualClick = () => {
-       navigate("/datavisual");
-   };
-
-
-   // Navigate to analytics page
-   const handleAnalyticClick = () => {
-       navigate("/analytics");
-   };
 
 
    // Update filter values when input changes
@@ -74,6 +62,33 @@ function Home() {
    // Accessing the patient data
    const data = testData.tables.patients;
 
+      // Navigate to data visualization page
+    const handleDataVisualClick = () => {
+       navigate("/datavisual", {state: data});
+   };
+
+   // Navigate to analytics page
+   const handleAnalyticClick = () => {
+       navigate("/analytics", {state: data});
+   };
+
+   //CSV Parsing Code Tutorial: https://www.geeksforgeeks.org/how-to-create-and-download-csv-file-in-javascript/
+   //Handle data export
+   const handleExport = () => {
+    const csvData = []
+    const headers = Object.keys(data[0])
+    csvData.push(headers.join(','))
+    for (const row of data) {
+        const values = headers.map(val => {
+            return(row[val])
+        });
+        csvData.push(values.join(','))
+    }
+    const exportData = csvData.join("\n")
+
+    const blob = new Blob([exportData], { type: "text/csv" });
+    FileSaver.saveAs(blob, "patientData.csv");
+   };
 
    // Filter data based on active filters
    const filteredData = data.filter(item => {
@@ -253,8 +268,9 @@ function Home() {
                        )}
                        {/* Navigation buttons */}
                        <div className="buttons has-text-centered mt-3">
-                           <button className="button is-link" onClick={handleDataVisualClick}>Go To Data Visual</button>
+                           <button className="button is-link" onClick={handleDataVisualClick}>Go To Data Visualizations</button>
                            <button className="button is-info" onClick={handleAnalyticClick}>Go To Analytics</button>
+                           <button className="button is-link" onClick={handleExport}>Export Selected Data</button>
                        </div>
                    </div>
                </div>
