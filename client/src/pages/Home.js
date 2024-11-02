@@ -2,37 +2,44 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
 import Navbar from '../components/Navbar';
+import testData from './testData2.json';
+
 
 function Home() {
    const navigate = useNavigate();
 
+
+   // State for filter values
    const [filters, setFilters] = useState({
        gender: '',
-       minAge: '',
-       maxAge: '',
-       dischargedToHospital: ''
+       dischargeType: '',
+       patientId: '',
+       name: '',
+       race: ''
    });
 
+
+   // State for active filters - only keep checkable ones
    const [activeFilters, setActiveFilters] = useState({
-       gender: false,
-       age: false,
-       dischargedToHospital: false,
+       gender: true,
+       dischargeType: true,
+       race: true
    });
 
+
+   // Navigate to data visualization page
    const handleDataVisualClick = () => {
-     navigate("/datavisual");
- }
+       navigate("/datavisual");
+   };
 
 
+   // Navigate to analytics page
    const handleAnalyticClick = () => {
        navigate("/analytics");
    };
 
-   const handleReportClick = () => {
-    navigate("/report");
-};
 
-
+   // Update filter values when input changes
    const handleFilterChange = (e) => {
        const { name, value } = e.target;
        setFilters((prevFilters) => ({
@@ -42,182 +49,219 @@ function Home() {
    };
 
 
-   // update active filters
+   // Toggle active state for filters
    const handleFilterToggle = (e) => {
-       const { name, checked } = e.target;
+       const { name } = e.target;
        setActiveFilters((prev) => ({
            ...prev,
-           [name]: checked,
+           [name]: !prev[name],  // Toggle the specific filter
        }));
    };
 
 
-   // clear filters
+   // Clear all filters
    const clearFilters = () => {
        setFilters({
            gender: '',
-           minAge: '',
-           maxAge: '',
-           dischargedToHospital: ''
-       });
-       setActiveFilters({
-           gender: false,
-           age: false,
-           dischargedToHospital: false,
+           dischargeType: '',
+           patientId: '',
+           name: '',
+           race: ''
        });
    };
 
 
-   // mock data
-   const data = [
-       { id: 1, name: 'Person1', age: 25, gender: 'Female', dischargedToHospital: 'Yes' },
-       { id: 2, name: 'Person2', age: 30, gender: 'Male', dischargedToHospital: 'No' },
-       { id: 3, name: 'Person3', age: 35, gender: 'Male', dischargedToHospital: 'Yes' },
-       { id: 4, name: 'Person4', age: 40, gender: 'Female', dischargedToHospital: 'No' },
-   ];
+   // Accessing the patient data
+   const data = testData.tables.patients;
 
+
+   // Filter data based on active filters
    const filteredData = data.filter(item => {
-       const { gender, minAge, maxAge, dischargedToHospital } = filters;
-       const matchesGender = gender ? item.gender === gender : true;
-       const matchesDischarged = dischargedToHospital ? item.dischargedToHospital === dischargedToHospital : true;
-       const matchesAge = (minAge !== '' ? item.age >= parseInt(minAge) : true) &&
-                          (maxAge !== '' ? item.age <= parseInt(maxAge) : true);
-      
-       return matchesGender && matchesDischarged && matchesAge;
+       const { gender, dischargeType, patientId, name, race } = filters;
+       const matchesGender = activeFilters.gender ? (gender ? item.gender === gender : true) : true;
+       const matchesDischargeType = activeFilters.dischargeType ? (dischargeType ? item.dischargeType === dischargeType : true) : true;
+       const matchesPatientId = (patientId ? item.patientId.toString() === patientId : true);
+       const matchesName = (name ? item.name.toLowerCase().includes(name.toLowerCase()) : true);
+       const matchesRace = activeFilters.race ? (race ? item.race === race : true) : true;
+
+
+       return matchesGender && matchesDischargeType && matchesPatientId && matchesName && matchesRace;
    });
 
 
-   // selectable filters
    return (
-    <>
-    <Navbar />
-       <div style={{ display: 'flex' }}>
-           <div style={{ marginRight: '20px', display: 'flex', flexDirection: 'column' }}>
-               <h2>Filter</h2>
-               <label>
-                   <input
-                       type="checkbox"
-                       name="gender"
-                       checked={activeFilters.gender}
-                       onChange={handleFilterToggle}
-                   />
-                   Gender
-               </label>
-               {activeFilters.gender && (
-                   <label>
-                       Gender:
-                       <select name="gender" value={filters.gender} onChange={handleFilterChange}>
-                           <option value="">Select Gender</option>
-                           <option value="Female">Female</option>
-                           <option value="Male">Male</option>
-                           <option value="Nonbinary">Nonbinary</option>
-                           <option value="Unknown">Unknown</option>
-                       </select>
-                   </label>
-               )}
+       <>
+           {/* Render Navbar */}
+           <Navbar />
+           <div className="container">
+               {/* Create a layout with columns */}
+               <div className="columns">
+                   {/* Filter section */}
+                   <div className="column is-one-third">
+                       <div className="box">
+                           <h2 className="title is-4">Filters</h2>
 
 
-               <label>
-                   <input
-                       type="checkbox"
-                       name="age"
-                       checked={activeFilters.age}
-                       onChange={handleFilterToggle}
-                   />
-                   Age
-               </label>
-               {activeFilters.age && (
-                   <>
-                       <label>
-                           Min Age:
-                           <input
-                               type="number"
-                               name="minAge"
-                               value={filters.minAge}
-                               onChange={handleFilterChange}
-                           />
-                       </label>
-                       <label>
-                           Max Age:
-                           <input
-                               type="number"
-                               name="maxAge"
-                               value={filters.maxAge}
-                               onChange={handleFilterChange}
-                           />
-                       </label>
-                   </>
-               )}
+                           {/* Patient ID filter (uncheckable) */}
+                           <div className="field">
+                               <label className="ml-2">Patient ID</label>
+                               <div className="control">
+                                   <input
+                                       type="text"
+                                       name="patientId"
+                                       className="input"
+                                       placeholder="Enter Patient ID"
+                                       value={filters.patientId}
+                                       onChange={handleFilterChange}
+                                   />
+                               </div>
+                           </div>
 
 
-               <label>
-                   <input
-                       type="checkbox"
-                       name="dischargedToHospital"
-                       checked={activeFilters.dischargedToHospital}
-                       onChange={handleFilterToggle}
-                   />
-                   Discharged To Hospital?
-               </label>
-               {activeFilters.dischargedToHospital && (
-                   <label>
-                       Discharged To Hospital:
-                       <select name="dischargedToHospital" value={filters.dischargedToHospital} onChange={handleFilterChange}>
-                           <option value="">Select Status</option>
-                           <option value="Yes">Yes</option>
-                           <option value="No">No</option>
-                       </select>
-                   </label>
-               )}
+                           {/* Name filter (uncheckable) */}
+                           <div className="field">
+                               <label className="ml-2">Name</label>
+                               <div className="control">
+                                   <input
+                                       type="text"
+                                       name="name"
+                                       className="input"
+                                       placeholder="Enter Name"
+                                       value={filters.name}
+                                       onChange={handleFilterChange}
+                                   />
+                               </div>
+                           </div>
 
 
-               <button onClick={clearFilters}>Clear Filters</button>
+                           {/* Gender filter */}
+                           <div className="field">
+                               <input
+                                   type="checkbox"
+                                   name="gender"
+                                   className="checkbox"
+                                   checked={activeFilters.gender}
+                                   onChange={handleFilterToggle}
+                               />
+                               <label className="ml-2">Gender</label>
+                               <div className="control">
+                                   <div className="select">
+                                       <select name="gender" value={filters.gender} onChange={handleFilterChange}>
+                                           <option value="">Select Gender</option>
+                                           <option value="Female">Female</option>
+                                           <option value="Male">Male</option>
+                                           <option value="Non-binary">Non-binary</option>
+                                           <option value="None provided">None provided</option>
+                                       </select>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                           {/* Discharge Type filter */}
+                           <div className="field">
+                               <input
+                                   type="checkbox"
+                                   name="dischargeType"
+                                   className="checkbox"
+                                   checked={activeFilters.dischargeType}
+                                   onChange={handleFilterToggle}
+                               />
+                               <label className="ml-2">Discharge Type</label>
+                               <div className="control">
+                                   <div className="select">
+                                       <select name="dischargeType" value={filters.dischargeType} onChange={handleFilterChange}>
+                                           <option value="">Select Discharge Type</option>
+                                           <option value="Full Recovery">Full Recovery</option>
+                                           <option value="Partial Recovery">Partial Recovery</option>
+                                           <option value="Transferred">Transferred</option>
+                                           <option value="Discharged Against Medical Advice">Discharged Against Medical Advice</option>
+                                       </select>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                           {/* Race filter */}
+                           <div className="field">
+                               <input
+                                   type="checkbox"
+                                   name="race"
+                                   className="checkbox"
+                                   checked={activeFilters.race}
+                                   onChange={handleFilterToggle}
+                               />
+                               <label className="ml-2">Race</label>
+                               <div className="control">
+                                   <div className="select">
+                                       <select name="race" value={filters.race} onChange={handleFilterChange}>
+                                           <option value="">Select Race</option>
+                                           <option value="Caucasian">Caucasian</option>
+                                           <option value="African American">African American</option>
+                                           <option value="Asian">Asian</option>
+                                           <option value="Hispanic">Hispanic</option>
+                                       </select>
+                                   </div>
+                               </div>
+                           </div>
+
+
+                           {/* Clear Filters button */}
+                           <button className="button is-danger" onClick={clearFilters}>Clear Filters</button>
+                       </div>
+                   </div>
+
+
+                   {/* Patient records section */}
+                   <div className="column">
+                       <h1 className="title is-3 has-text-centered">Patient Records</h1>
+                       {filteredData.length === 0 ? (
+                           <p>No data matches your filters.</p>
+                       ) : (
+                           <div className="box">
+                               <table className="table is-narrow is-striped">
+                                   <thead>
+                                       <tr>
+                                           <th>ID</th>
+                                           {activeFilters.gender && <th>Gender</th>}
+                                           {activeFilters.dischargeType && <th>Discharge Type</th>}
+                                           {activeFilters.race && <th>Race</th>}
+                                           <th>Name</th>
+                                           <th>DOB</th>
+                                           <th>Intake Date</th>
+                                           <th>Discharge Date</th>
+                                           <th>Notes</th>
+                                       </tr>
+                                   </thead>
+                                   <tbody>
+                                       {filteredData.map(item => (
+                                           <tr key={item.patientId}>
+                                               <td>{item.patientId}</td>
+                                               {activeFilters.gender && <td>{item.gender}</td>}
+                                               {activeFilters.dischargeType && <td>{item.dischargeType}</td>}
+                                               {activeFilters.race && <td>{item.race}</td>}
+                                               <td>{item.name}</td>
+                                               <td>{new Date(item.dob).toLocaleDateString()}</td>
+                                               <td>{new Date(item.intakeDate).toLocaleString()}</td>
+                                               <td>{new Date(item.dischargeDate).toLocaleString()}</td>
+                                               <td>{item.clinicianNotes}</td>
+                                           </tr>
+                                       ))}
+                                   </tbody>
+                               </table>
+                           </div>
+                       )}
+                       {/* Navigation buttons */}
+                       <div className="buttons has-text-centered mt-3">
+                           <button className="button is-link" onClick={handleDataVisualClick}>Go To Data Visual</button>
+                           <button className="button is-info" onClick={handleAnalyticClick}>Go To Analytics</button>
+                       </div>
+                   </div>
+               </div>
            </div>
-           <div>
-               <h1>Filtering</h1>
-               <button onClick={handleDataVisualClick}>Data Visual</button>
-               <button onClick={handleAnalyticClick}>Analytics</button>
-               <button onClick={handleReportClick}>Export Report</button>
-
-               <h2>Data Table</h2>
-               <h1 className="is-size-1 has-text-centered">Patient Records</h1>
-               {filteredData.length === 0 ? (
-                   <p>No data matches your filters.</p>
-               ) : (
-                   <table class="table">
-                       <thead>
-                           <tr>
-                               <th>ID</th>
-                               {activeFilters.gender && <th>Gender</th>}
-                               {activeFilters.age && <th>Age</th>}
-                               {activeFilters.dischargedToHospital && <th>Discharged to Hospital</th>}
-                               <th>Name</th> {/* always show name */}
-                           </tr>
-                       </thead>
-                       <tbody>
-                           {filteredData.map(item => (
-                               <tr key={item.id}>
-                                   <td>{item.id}</td>
-                                   {activeFilters.gender && <td>{item.gender}</td>}
-                                   {activeFilters.age && <td>{item.age}</td>}
-                                   {activeFilters.dischargedToHospital && <td>{item.dischargedToHospital}</td>}
-                                   <td>{item.name}</td> {/* always show name */}
-                               </tr>
-                           ))}
-                       </tbody>
-                   </table>
-                   
-               )}
-               <button class="button has-background-link" onClick={handleDataVisualClick}>Go To Data Visual</button>
-               <button class="button has-background-info has-text-black-bis" onClick={handleAnalyticClick}>Go To Analytics</button>
-           </div>
-       </div>
        </>
    );
 }
 
 
 export default Home;
-
-
-

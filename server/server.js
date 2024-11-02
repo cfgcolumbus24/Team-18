@@ -1,68 +1,57 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const sqlite = require("sqlite3").verbose()
+import express from 'express';
+import bodyParser from 'body-parser';
+import filters from './filters.js';
+import data from './data/testData.json' with { type: "json" };
 
-//Boilerplate sqlite code gotten from: https://www.youtube.com/watch?app=desktop&v=mnH_1YGR2PM&ab_channel=ByteMyke
+const app = express();
 
-//Create database connection
-const db = new sqlite.Database("./patientRecords.db", sqlite.OPEN_READWRITE, (err) => {
-    if (err) return console.error(err);
-})
+app.use(bodyParser.json());
 
-app.use(bodyParser.json())
 
-//Post Request
-
-app.post("/", (req, res) => {
-    try {
-        const {patientId, name, dob, intakeDate, dischargeDate, dischargeType, gender, sexualOrientation, race, clinicianNotes} = req.body;
-        sql = `INSERT INTO patientRecords(patientId, name, dob, intakeDate, dischargeDate, dischargeType, gender, sexualOrientation, race, clinicianNotes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
-        db.run(sql,[patientId, name, dob, intakeDate, dischargeDate, dischargeType, gender, sexualOrientation, race, clinicianNotes], (err) => {
-            if (err) {
-                return res.json({
-                    status: 303,
-                    success: false,
-                })
-            }
-            console.log("success!")
-        })
-        console.log(req.body.name);
-        return(res.json({
-            status: 200,
-            success: true
-        }));
-    } catch (error) {
-        return res.json({
-            status: 400,
-            success: false,
-        })
-    }
-})
-
-//Get all path
 app.get("/", (req, res) => {
-    sql = "SELECT * from patientRecords"
-    try {
-        db.all(sql, [], (err, rows) => {
-            if (err) {
-                return res.json({
-                    status: 300,
-                    success: false,
-                    error: err
-                })
-            }
-            return res.json({status: 200, data: rows, success: true})
-        })
-    } catch (error) {
-        return res.json({
-            status: 400,
-            success: false
-        })
-    }
+    res.send("nothing to see here....")
 })
 
-//Get some based on query parameters
+app.get("/table-types/:tableName", (req, res) => {
+    if (!data.columnTypes[req.params.tableName]) {
+        res.status(404).send("Table not found");
+        return;
+    }
+    
+    res.status(200).send(data.columnTypes[req.params.tableName]);
+});
+
+app.get("/tables/", (req, res) => {
+    res.status(200).send(Object.keys(data.tables));
+});
+
+app.get("/tables/:tableName/", (req, res) => {
+    if (!data.tables[req.params.tableName]) {
+        res.status(404).send("Table not found");
+        return;
+    }
+
+    let tableToReturn = filters.filterTable(req.params.tableName, req.query.filters || [{type: "all"}]);
+    
+    if (req.query.sort) {
+        // sort the table based on the sort parameter
+        
+        tableToReturn.sort((a, b) => {
+            let first = a[req.query.sort];
+            let second = b[req.query.sort];
+
+            let returnVal = null;
+
+            if (second === first)
+                returnVal = 0;
+            returnVal = (((second < first) != (req.query.sortReversed === "true")) ? 1 : -1);
+            console.log(returnVal);
+            return returnVal;
+        });
+    }
+
+    res.status(200).send(tableToReturn);
+});
 
 //Start express application
 app.listen(8080, () => {
