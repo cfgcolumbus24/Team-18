@@ -1,7 +1,6 @@
 {
     "columnTypes": {
-      "patients": [
-        {
+      "patients": {
           "patientId": "number",
           "name": "string",
           "dob": "date",
@@ -33,7 +32,6 @@
           ],
           "clinicianNotes": "string"
         }
-      ]
     }
   }
 

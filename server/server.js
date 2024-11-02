@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import filters from './filters.js';
 import data from './data/dataColumns.json' with { type: "json" };
+import cors from 'cors';
 
 import sqlite3 from "sqlite3";
 const sqlite = sqlite3.verbose();
@@ -43,7 +44,7 @@ formatData()
 const app = express();
 
 app.use(bodyParser.json());
-
+app.use(cors());
 
 app.get("/", (req, res) => {
     res.send("nothing to see here....")
@@ -68,7 +69,16 @@ app.get("/tables/:tableName/", (req, res) => {
         return;
     }
 
-    let tableToReturn = filters.filterTable(req.params.tableName, req.query.filters || [{type: "all"}]);
+    let tableToReturn = {};
+    
+    if (req.query.filters)
+        filters.filterTable(req.params.tableName, JSON.parse(req.query.filters));
+    else {
+        tableToReturn = data.tables[req.params.tableName];
+    }
+
+    if (req.query.visibleColumns)
+        tableToReturn = filters.applyVisibleColumns(req.params.tableName, JSON.parse(req.query.visibleColumns) );
     
     if (req.query.sort) {
         // sort the table based on the sort parameter
@@ -82,7 +92,6 @@ app.get("/tables/:tableName/", (req, res) => {
             if (second === first)
                 returnVal = 0;
             returnVal = (((second < first) != (req.query.sortReversed === "true")) ? 1 : -1);
-            console.log(returnVal);
             return returnVal;
         });
     }

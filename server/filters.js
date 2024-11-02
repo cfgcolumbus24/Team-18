@@ -64,10 +64,10 @@ function columnType(tableName, columnName) {
 function filterByExact(tableName, columnName, value) {
     let foundTableRows = new Set();
     
-    for (i in data.tables[tableName]) {
-        if (i[columnName] === value)
-            foundTableRows.add(i);
-    }
+    data.tables[tableName].forEach((itm, idx) => {
+        if (itm[columnName] === value)
+            foundTableRows.add(idx);
+    });
 
     return foundTableRows;
 }
@@ -86,10 +86,11 @@ function filterByExact(tableName, columnName, value) {
 function filterByContains(tableName, columnName, value) {
     let foundTableRows = new Set();
     
-    for (i in data.tables[tableName]) {
-        if (i[columnName].includes(value))
-            foundTableRows.add(i);
-    }
+    data.tables[tableName].forEach((itm, idx) => {
+        // console.log(i)
+        if (itm[columnName].includes(value))
+            foundTableRows.add(idx);
+    });
 
     return foundTableRows;
 }
@@ -107,14 +108,14 @@ function filterByContains(tableName, columnName, value) {
  * 
  * @returns {Set} foundTableRows
  */
-function filterByDate(tableName, columnName, startDate, endDate) {
+function filterByRange(tableName, columnName, startDate, endDate) {
     let foundTableRows = new Set();
     
     if (data.columnTypes[columnName] == "date") {
-        for (i in data.tables[tableName]) {
-            if (i[columnName] >= startDate && i[columnName] <= endDate)
-                foundTableRows.add(i);
-        }
+        data.tables[tableName].forEach((itm, idx) => {
+            if (itm[columnName] >= startDate && itm[columnName] <= endDate)
+                foundTableRows.add(idx);
+        });
     }
     return foundTableRows;
 }
@@ -154,27 +155,25 @@ function filterTable(tableName, filters){
     let foundTableRows = new Set();
     let arrayToReturn = [];
 
+    for (i in data.tables[tableName]) {
+        foundTableRows.add(i);
+    }
+
     for (let i = 0; i < filters.length; i++) {
-        for (let i = 0; i < filters.length; i++) {
-            switch (filters[i].type) {
-                case "all":
-                    for (i in data.tables[tableName]) {
-                        foundTableRows.add(i);
-                    }
-                    break;
-                case "exact":
-                    foundTableRows = filterByExact(tableName, filters[i].columnName, filters[i].value);
-                    break;
-                case "contains":
-                    foundTableRows = filterByContains(tableName, filters[i].columnName, filters[i].value);
-                    break;
-                case "date":
-                    foundTableRows = filterByDate(tableName, filters[i].columnName, filters[i].startDate, filters[i].endDate);
-                    break;
-                default:
-                    // Handle unknown filter type
-                    break;
-            }
+        switch (filters[i].type) {
+            case "exact":
+                foundTableRows = filterByExact(tableName, filters[i].columnName, filters[i].value);
+                break;
+            case "contains":
+                foundTableRows = filterByContains(tableName, filters[i].columnName, filters[i].value);
+                console.log(foundTableRows);
+                break;
+            case "range":
+                foundTableRows = filterByRange(tableName, filters[i].columnName, filters[i].startDate, filters[i].endDate);
+                break;
+            default:
+                // Handle unknown filter type
+                break;
         }
     }
 
@@ -185,6 +184,32 @@ function filterTable(tableName, filters){
     return arrayToReturn;
 }
 
+/**
+ * Returns the visible columns of the table
+ * 
+ * @param {string} tableName
+ * 
+ * @param {string[]} visibleColumns
+ * 
+ * @returns {Object[]} newTable
+ */
+function applyVisibleColumns (tableName, visibleColumns) {
+    let newTable = [];
+
+    data.tables[tableName].forEach((row) => {
+        let newRow = {};
+
+        for (let column of visibleColumns) {
+            newRow[column] = row[column];
+        }
+
+        newTable.push(newRow);
+    });
+
+    return newTable;
+}
+
 export default {
-    filterTable
+    filterTable,
+    applyVisibleColumns
 }
