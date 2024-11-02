@@ -5,6 +5,9 @@ import salesData from './data.json';
 import Navbar from '../components/Navbar';
 
 function HardcodedChart() {
+  // Hardcoded data for the chart
+    // const data = salesData;
+
   //Get filtered patient data passed from home screen
   const patientData = useLocation();
   const data = JSON.stringify(patientData.state);
