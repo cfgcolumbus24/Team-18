@@ -20,7 +20,6 @@ function Report() {
     const doc = new jsPDF();
 
     const monthData = data.filter(item => {
-      console.log(item.dischargeType)
       return(item.intakeDate.substring(0, 7) === month)
     })
 
@@ -55,21 +54,20 @@ function Report() {
       ],
     });
 
-    autoTable(doc, {
-      head: [['', '']],
-      body: [
-        ['Average length of stay (in hours)', ''],
-      ],
+    let hourSum = 0
+
+    monthData.forEach(element => {
+      const date1 = new Date(element.intakeDate)
+      const date2 = new Date(element.dischargeDate)
+      const diffInMilliseconds = date2.getTime() - date1.getTime();
+      const diffInHours = diffInMilliseconds / (1000 * 60 * 60)
+      hourSum += diffInHours
     });
 
     autoTable(doc, {
-      head: [['Client Gender', 'Discharged to Hospital', 'Country']],
+      head: [['', '']],
       body: [
-        ['Female or Woman', {}, 'Sweden'],
-        ['Male or Man', 'castille@example.com', 'Spain'],
-        ['Nonbinary', 'castille@example.com', 'Spain'],
-        ['Gender unknown', 'castille@example.com', 'Spain'],
-        // ...
+        ['Average length of stay (in hours)', `${(hourSum / monthData.length).toFixed(1)}`],
       ],
     });
     doc.save("blank.pdf");
