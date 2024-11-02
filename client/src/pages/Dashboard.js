@@ -19,7 +19,7 @@ const DatabaseSelector = () => {
      <>
          <Navbar />
          <div className="container">
-             <h1 className="title is-3 has-text-centered">Choose the Path to a Patient's Journey</h1>
+             <h1 className="title is-3 has-text-centered">Choose Your Patient's Journey</h1>
              <div className="columns is-multiline">
                  {/* EHR Database Tile */}
                  <div className="column is-one-third">
