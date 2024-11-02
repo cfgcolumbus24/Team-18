@@ -27,19 +27,21 @@ function Analytics() {
     const handleMessage = async () => {
         if (query.trim() === '') return; // Prevent sending empty messages
         const chat = model.startChat({ history: history });
+        const originQuery = query;
         const question = `I am providing you a database of information 
-                          for the company NetCare Access. Please answer the 
-                          question by the user below solely based off the data 
-                          table you are given. If the user asks anything that 
-                          can not be answered by the table please respond 
-                          with 'The table does not provide enough information 
-                          to answer this question'. Also when prompted with a 
-                          question only provide an answer to the question do 
-                          not output all the logic you did to calculate, 
-                          the answers should be short and percise.` + query;
-                          
+                          concerning patients at NetCare Access. Please answer 
+                          the question by the user below solely based off the 
+                          data table you are given. If the user asks anything 
+                          that can not be answered or derived from table please 
+                          respond with 'The table does not provide enough 
+                          information to answer this question'. Also when 
+                          prompted with a question only provide an answer to 
+                          the question do not output all the logic you did to 
+                          calculate, the answers should be short and percise.` 
+                          + query;
+
         setQuery('');
-        const newHistory = [...history, { role: 'user', parts: [{ text: question }] }];
+        const newHistory = [...history, { role: 'user', parts: [{ text: originQuery }] }];
         setMessageHistory(newHistory);
         
         const result = await chat.sendMessage(question);
