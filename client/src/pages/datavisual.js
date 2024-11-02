@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LineChart, BarChart, PieChart, AreaChart, Line, Bar, Pie, Cell, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import salesData from './data.json';
+import Navbar from '../components/Navbar';
 
 
 function HardcodedChart() {
@@ -25,6 +26,7 @@ function HardcodedChart() {
 
   return (
     <div>
+      <Navbar />
       <h1>Data Visual</h1>
       <button onClick={returnHome}>Return to Home</button> {/* Button to return to home */}
 
