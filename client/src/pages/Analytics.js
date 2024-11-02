@@ -13,25 +13,21 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 function Analytics() {
 
-    //Get state data passed in from home screen
-    const location = useLocation();
-    const { data } = location;
-    
-    console.log(data)
+    //Get filtered patient data passed from home screen
+    const patientData = useLocation();
+    const data = JSON.stringify(patientData.state);
     
     const navigate = useNavigate();
-    const [query, setQuery] = useState('');
 
+    const [query, setQuery] = useState('');
     const[history, setMessageHistory] = useState([{role: 'user', parts: [{text: data}]}])
 
     const returnToPreviousPage = () => {
         navigate("/home");
     }
 
-    //Code to handle each message from the user 
+    //Code to handle a submitted query by 1) Updating the chat history and 2) calling the genAI API
     const handleMessage = async () => {
-        console.log(data)
-        console.log(history)
         const chat = model.startChat({
             history: history
         })
@@ -50,16 +46,19 @@ function Analytics() {
         <h1 class="is-size-1 has-text-centered">Prediction Generator</h1>
         <div className="chat-container">
             {history.map((message, index) => {
-                if (message.role === "user") {
-                    return(
-                        <div key={index} class="Container has-background-light has-text-black has-text-right mx-6">
-                            <p class="is-size-5">{message.parts[0].text}</p>
-                    </div>)
-                } else {
-                    return(
-                        <div key={index} class="Container has-background-success has-text-black has-text-left mx-6">
-                            <p class="is-size-5">{message.parts[0].text}</p>
-                    </div>)
+                console.log("INDEX", index)
+                if (index > 0) {
+                    if (message.role === "user") {
+                        return(
+                            <div key={index} class="Container has-background-light has-text-black has-text-right mx-6">
+                                <p class="is-size-5">{message.parts[0].text}</p>
+                        </div>)
+                    } else {
+                        return(
+                            <div key={index} class="Container has-background-success has-text-black has-text-left mx-6">
+                                <p class="is-size-5">{message.parts[0].text}</p>
+                        </div>)
+                    }
                 }
             })}
         </div>

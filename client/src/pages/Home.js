@@ -25,19 +25,6 @@ function Home() {
    });
 
 
-   // Navigate to data visualization page
-   const handleDataVisualClick = () => {
-        console.log(data)
-       navigate("/datavisual", {state: data});
-   };
-
-
-   // Navigate to analytics page
-   const handleAnalyticClick = () => {
-       navigate("/analytics", {state: data});
-   };
-
-
    // Update filter values when input changes
    const handleFilterChange = (e) => {
        const { name, value } = e.target;
@@ -81,6 +68,19 @@ function Home() {
        { id: 3, name: 'Person3', age: 35, gender: 'Male', dischargedToHospital: 'Yes' },
        { id: 4, name: 'Person4', age: 40, gender: 'Female', dischargedToHospital: 'No' },
    ];
+
+      // Navigate to data visualization page
+    const handleDataVisualClick = () => {
+        console.log(data)
+       navigate("/datavisual", {state: data});
+   };
+
+
+   // Navigate to analytics page
+   const handleAnalyticClick = () => {
+        console.log(data)
+       navigate("/analytics", {state: data});
+   };
 
 
    // Filter data based on active filters
