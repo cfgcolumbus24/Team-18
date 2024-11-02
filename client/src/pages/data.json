@@ -1,8 +1,50 @@
 [
-    { "month": "January", "sales": 400 },
-    { "month": "February", "sales": 300 },
-    { "month": "March", "sales": 500 },
-    { "month": "April", "sales": 200 },
-    { "month": "May", "sales": 700 }
-  ]
-  
+  {
+    "patientId": 100001,
+    "name": "John Doe",
+    "visits": 5,
+    "billOwed": 1200.50
+  },
+  {
+    "patientId": 100002,
+    "name": "Jane Smith",
+    "visits": 3,
+    "billOwed": 875.20
+  },
+  {
+    "patientId": 100003,
+    "name": "Alex Brown",
+    "visits": 7,
+    "billOwed": 2450.00
+  },
+  {
+    "patientId": 100004,
+    "name": "Maria Garcia",
+    "visits": 2,
+    "billOwed": 430.75
+  },
+  {
+    "patientId": 100005,
+    "name": "Samuel Lee",
+    "visits": 4,
+    "billOwed": 1300.00
+  },
+  {
+    "patientId": 100006,
+    "name": "Emma Thompson",
+    "visits": 6,
+    "billOwed": 2100.90
+  },
+  {
+    "patientId": 100007,
+    "name": "Carlos Martinez",
+    "visits": 8,
+    "billOwed": 3100.80
+  },
+  {
+    "patientId": 100008,
+    "name": "Sophia Kim",
+    "visits": 1,
+    "billOwed": 150.00
+  }
+]
