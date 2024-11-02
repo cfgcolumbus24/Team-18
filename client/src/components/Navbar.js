@@ -8,7 +8,7 @@ function Navbar() {
     const [isTooltipVisible, setTooltipVisible] = useState(false);
 
     const returnHome = () => {
-        navigate("/home");
+        navigate("/dashboard");
     }
 
     const signOut = () => {
@@ -28,6 +28,7 @@ function Navbar() {
                     width="300" 
                     src={require("./netcareLogo.png")} 
                     onClick={returnHome}
+                    style={{cursor: 'pointer'}}
                     alt="Netcare Logo"
                 />
             </div>
