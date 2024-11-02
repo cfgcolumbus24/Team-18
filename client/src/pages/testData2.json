@@ -44,7 +44,7 @@
         "intakeDate": "2023-05-20T14:30:00",
         "dischargeDate": "2023-06-15T09:00:00",
         "dischargeType": "Discharged to hospital",
-        "gender": "Discharged to home/community",
+        "gender": "Male",
         "sexualOrientation": "Heterosexual",
         "race": "Caucasian",
         "clinicianNotes": "Patient responded well to treatment. Recommend follow-up in 3 months."
