@@ -3,7 +3,6 @@ import Navbar from '../components/Navbar';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
-import './analytics.css'
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
