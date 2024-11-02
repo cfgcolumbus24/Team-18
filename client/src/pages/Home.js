@@ -4,6 +4,7 @@ import 'bulma/css/bulma.min.css';
 import Navbar from '../components/Navbar';
 import testData from './testData2.json';
 import FileSaver from 'file-saver';
+import { FaDownload } from "react-icons/fa";
 
 function Home() {
    const navigate = useNavigate();
@@ -270,7 +271,7 @@ function Home() {
                        <div className="buttons has-text-centered mt-3">
                            <button className="button is-link" onClick={handleDataVisualClick}>Go To Data Visualizations</button>
                            <button className="button is-info" onClick={handleAnalyticClick}>Go To Analytics</button>
-                           <button className="button is-link" onClick={handleExport}>Export Selected Data</button>
+                           <button className="button is-link" onClick={handleExport}><FaDownload style={{ marginRight: '8px' }} /> Export Selected Data</button>
                        </div>
                    </div>
                </div>
