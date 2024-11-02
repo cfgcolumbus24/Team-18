@@ -36,7 +36,7 @@ function Navbar() {
                     className="navbar-item" 
                     onMouseEnter={() => setTooltipVisible(true)} 
                     onMouseLeave={() => setTooltipVisible(false)}
-                    style={{ position: 'relative' }} // Position context for tooltip
+                    style={{ position: 'relative', fontSize: '2rem' }} // Position context for tooltip
                 >
                     <FaRegUserCircle />
                     {isTooltipVisible && (
@@ -45,7 +45,7 @@ function Navbar() {
                         </div>
                     )}
                 </div>
-                <div className="navbar-item" onClick={signOut} style={{ cursor: 'pointer' }}>
+                <div className="navbar-item" onClick={signOut} style={{ cursor: 'pointer', fontSize: '2rem' }}>
                     <FaSignOutAlt />
                 </div>
             </div>
