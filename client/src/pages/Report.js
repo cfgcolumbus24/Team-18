@@ -2,6 +2,7 @@ import {React, useState} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { FaArrowLeft } from 'react-icons/fa';
 
 function Report() {
   const navigate = useNavigate();
@@ -77,12 +78,15 @@ function Report() {
     <div style={{ textAlign: 'center', padding: '2rem' }}>
       
       <h1 className="title has-text-centered has-text">Generate Report</h1>
-      <button className="button" onClick={returnHome}>Back</button>
-      <input class="input" type="text" placeholder="YYYY-MM" value={month} onChange={(e) => setMonth(e.target.value)}></input>
-      <button className="button has-background-info has-text-black" onClick={generatePDF}>Submit</button>
-      <button className="button is-info" onClick={generatePDF} style={{ marginLeft: '1rem' }}>
-        Export PDF
-      </button>
+      <button className="button is-link" onClick={returnHome} style={{ display: 'flex', alignItems: 'center' }}>
+            <FaArrowLeft style={{ marginRight: '8px' }} /> Go Back
+          </button>
+      <div style={{display: 'flex', flexDirection: 'row'}}>
+        <input class="input" type="text" style={{marginTop: '1rem', marginBottom: '1rem'}} placeholder="YYYY-MM" value={month} onChange={(e) => setMonth(e.target.value)}></input>
+        <button className="button is-info" onClick={generatePDF} style={{ marginLeft: '1rem' }}>
+          Export PDF
+        </button>
+      </div>
     </div>
   );
 }
