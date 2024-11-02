@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.min.css';
 import { useNavigate } from 'react-router-dom';
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaRegUserCircle, FaSignOutAlt } from "react-icons/fa";
 
 function Navbar() {
     const navigate = useNavigate();
@@ -9,6 +9,13 @@ function Navbar() {
 
     const returnHome = () => {
         navigate("/home");
+    }
+
+    const signOut = () => {
+        // Clear user data, e.g., local storage, context, etc.
+        // localStorage.removeItem('user'); // Example
+        // context.signOut(); // If using context
+        navigate("/"); // Redirect to login page after signing out
     }
 
     const username = "YourUsername"; // Replace with actual username
@@ -29,7 +36,7 @@ function Navbar() {
                     className="navbar-item" 
                     onMouseEnter={() => setTooltipVisible(true)} 
                     onMouseLeave={() => setTooltipVisible(false)}
-                    style={{ position: 'relative' }} // Ensure positioning context for the tooltip
+                    style={{ position: 'relative' }} // Position context for tooltip
                 >
                     <FaRegUserCircle />
                     {isTooltipVisible && (
@@ -37,6 +44,9 @@ function Navbar() {
                             {username}
                         </div>
                     )}
+                </div>
+                <div className="navbar-item" onClick={signOut} style={{ cursor: 'pointer' }}>
+                    <FaSignOutAlt />
                 </div>
             </div>
         </nav>
