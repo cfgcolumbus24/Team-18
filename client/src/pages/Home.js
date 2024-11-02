@@ -71,14 +71,12 @@ function Home() {
 
       // Navigate to data visualization page
     const handleDataVisualClick = () => {
-        console.log(data)
        navigate("/datavisual", {state: data});
    };
 
 
    // Navigate to analytics page
    const handleAnalyticClick = () => {
-        console.log(data)
        navigate("/analytics", {state: data});
    };
 

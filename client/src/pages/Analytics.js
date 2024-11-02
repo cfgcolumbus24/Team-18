@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
 import './analytics.css'
-import {useLocation} from 'react-router-dom'
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
