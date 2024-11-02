@@ -14,8 +14,11 @@ function Analytics() {
   return (
     <div>
         <Navbar />
-      <h1>Analytics Page</h1>
-      <button onClick={returnToPreviousPage}>Back</button>
+        <button className="button ml-4 has-background-info has-text-black" onClick={returnToPreviousPage}>Back</button>
+        <h1 className="is-size-1 has-text-centered">Prediction Generator</h1>
+        <div class="Container">
+
+        </div>
     </div>
   );
 }
