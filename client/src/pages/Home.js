@@ -73,6 +73,11 @@ function Home() {
        navigate("/analytics", {state: data});
    };
 
+    // Navigate to analytics page
+    const handleReportClick = () => {
+        navigate("/report", {state: data});
+    };
+
    //CSV Parsing Code Tutorial: https://www.geeksforgeeks.org/how-to-create-and-download-csv-file-in-javascript/
    //Handle data export
    const handleExport = () => {
@@ -272,6 +277,7 @@ function Home() {
                            <button className="button is-link" onClick={handleDataVisualClick}>Go To Data Visualizations</button>
                            <button className="button is-info" onClick={handleAnalyticClick}>Go To Analytics</button>
                            <button className="button is-link" onClick={handleExport}><FaDownload style={{ marginRight: '8px' }} /> Export Selected Data</button>
+                           <button className="button is-info" onClick={handleReportClick}>Generate Report</button>
                        </div>
                    </div>
                </div>

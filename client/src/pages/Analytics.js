@@ -14,7 +14,6 @@ function Analytics() {
     //Get filtered patient data passed from home screen
     const patientData = useLocation();
     const data = JSON.stringify(patientData.state);
-    console.log(data)
 
     const [query, setQuery] = useState('');
     const [history, setMessageHistory] = useState([{role: 'user', parts: [{text: data}]}]);
