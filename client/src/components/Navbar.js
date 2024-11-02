@@ -18,7 +18,7 @@ function Navbar() {
         navigate("/"); // Redirect to login page after signing out
     }
 
-    const username = "YourUsername"; // Replace with actual username
+    const username = "Your Username"; // Replace with actual username
 
     return (
         <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -36,7 +36,7 @@ function Navbar() {
                     className="navbar-item" 
                     onMouseEnter={() => setTooltipVisible(true)} 
                     onMouseLeave={() => setTooltipVisible(false)}
-                    style={{ position: 'relative', fontSize: '2rem' }} // Position context for tooltip
+                    style={{ position: 'relative', fontSize: '1.5rem' }} // Position context for tooltip
                 >
                     <FaRegUserCircle />
                     {isTooltipVisible && (
@@ -45,7 +45,7 @@ function Navbar() {
                         </div>
                     )}
                 </div>
-                <div className="navbar-item" onClick={signOut} style={{ cursor: 'pointer', fontSize: '2rem' }}>
+                <div className="navbar-item" onClick={signOut} style={{ cursor: 'pointer', fontSize: '1.5rem' }}>
                     <FaSignOutAlt />
                 </div>
             </div>
