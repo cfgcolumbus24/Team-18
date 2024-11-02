@@ -4,6 +4,8 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Home from './pages/Home';
 import Report from './pages/Report';
 import Analytics from './pages/Analytics';
+import OpenAI from 'openai';
+
 
 function App() {
   return (
