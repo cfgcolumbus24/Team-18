@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import 'bulma/css/bulma.min.css';
 // import './Login.css'; // Uncomment this line if you add CSS for styling
 
 function Login() {
@@ -42,7 +43,7 @@ function Login() {
             required
           />
         </div>
-        <button type="submit">Log in</button>
+        <button class="button is-primary" type="submit">Log in</button>
       </form>
     </div>
   );
