@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
 import './analytics.css'
+import {useLocation} from 'react-router-dom'
+
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
@@ -11,10 +13,16 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 function Analytics() {
 
+    //Get state data passed in from home screen
+    const location = useLocation();
+    const { data } = location;
+    
+    console.log(data)
+    
     const navigate = useNavigate();
     const [query, setQuery] = useState('');
 
-    const[history, setMessageHistory] = useState([])
+    const[history, setMessageHistory] = useState([{role: 'user', parts: [{text: data}]}])
 
     const returnToPreviousPage = () => {
         navigate("/home");
@@ -22,6 +30,8 @@ function Analytics() {
 
     //Code to handle each message from the user 
     const handleMessage = async () => {
+        console.log(data)
+        console.log(history)
         const chat = model.startChat({
             history: history
         })

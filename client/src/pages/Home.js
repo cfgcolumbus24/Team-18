@@ -27,13 +27,14 @@ function Home() {
 
    // Navigate to data visualization page
    const handleDataVisualClick = () => {
-       navigate("/datavisual");
+        console.log(data)
+       navigate("/datavisual", {state: data});
    };
 
 
    // Navigate to analytics page
    const handleAnalyticClick = () => {
-       navigate("/analytics");
+       navigate("/analytics", {state: data});
    };
 
 
