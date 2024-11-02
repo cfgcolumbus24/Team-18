@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import 'bulma/css/bulma.min.css';
+import Navbar from '../components/Navbar';
 
 function Home() {
    const navigate = useNavigate();
@@ -75,7 +76,6 @@ function Home() {
        { id: 4, name: 'Person4', age: 40, gender: 'Female', dischargedToHospital: 'No' },
    ];
 
-
    const filteredData = data.filter(item => {
        const { gender, minAge, maxAge, dischargedToHospital } = filters;
        const matchesGender = gender ? item.gender === gender : true;
@@ -89,6 +89,8 @@ function Home() {
 
    // selectable filters
    return (
+    <>
+    <Navbar />
        <div style={{ display: 'flex' }}>
            <div style={{ marginRight: '20px', display: 'flex', flexDirection: 'column' }}>
                <h2>Filter</h2>
@@ -178,10 +180,11 @@ function Home() {
                <button onClick={handleReportClick}>Export Report</button>
 
                <h2>Data Table</h2>
+               <h1 className="is-size-1 has-text-centered">Patient Records</h1>
                {filteredData.length === 0 ? (
                    <p>No data matches your filters.</p>
                ) : (
-                   <table border="1">
+                   <table class="table">
                        <thead>
                            <tr>
                                <th>ID</th>
@@ -203,9 +206,13 @@ function Home() {
                            ))}
                        </tbody>
                    </table>
+                   
                )}
+               <button class="button has-background-link" onClick={handleDataVisualClick}>Go To Data Visual</button>
+               <button class="button has-background-info has-text-black-bis" onClick={handleAnalyticClick}>Go To Analytics</button>
            </div>
        </div>
+       </>
    );
 }
 
