@@ -6,14 +6,14 @@ function Analytics() {
 
     const navigate = useNavigate();
 
-    const returnHome = () => {
-        navigate("/");
+    const returnToPreviousPage = () => {
+        navigate("/home");
     }
 
   return (
     <div>
       <h1>Analytics Page</h1>
-      <button onClick={returnHome}>Home</button>
+      <button onClick={returnToPreviousPage}>Back</button>
     </div>
   );
 }
