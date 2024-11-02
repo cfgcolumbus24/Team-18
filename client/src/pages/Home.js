@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 function Home() {
    const navigate = useNavigate();
 
-
    const [filters, setFilters] = useState({
        gender: '',
        minAge: '',
@@ -13,16 +12,11 @@ function Home() {
        dischargedToHospital: ''
    });
 
-
    const [activeFilters, setActiveFilters] = useState({
        gender: false,
        age: false,
        dischargedToHospital: false,
    });
-
-
- 
-
 
    const handleDataVisualClick = () => {
      navigate("/datavisual");
