@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import 'bulma/css/bulma.min.css';
 
 function Home() {
    const navigate = useNavigate();
@@ -169,15 +169,15 @@ function Home() {
            </div>
            <div>
                <h1>Filtering</h1>
-               <button onClick={handleDataVisualClick}>Go To Data Visual</button>
-               <button onClick={handleAnalyticClick}>Go To Analytics</button>
+               <button class="button has-background-link" onClick={handleDataVisualClick}>Go To Data Visual</button>
+               <button class="button has-background-info has-text-black-bis" onClick={handleAnalyticClick}>Go To Analytics</button>
 
 
                <h2>Data Table</h2>
                {filteredData.length === 0 ? (
                    <p>No data matches your filters.</p>
                ) : (
-                   <table border="1">
+                   <table class="table">
                        <thead>
                            <tr>
                                <th>ID</th>
