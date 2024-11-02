@@ -3,6 +3,7 @@ import { LineChart, BarChart, PieChart, AreaChart, Line, Bar, Pie, Cell, Area, X
 import { useNavigate } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import salesData from './data.json';
+import 'bulma/css/bulma.min.css';
 
 function HardcodedChart() {
   const data = salesData;
@@ -14,7 +15,7 @@ function HardcodedChart() {
 
   // Function to navigate back to the previous page
   const returnPreviousPage = () => {
-    navigate(-1); 
+    navigate(-1);
   };
 
   // Function to handle chart type selection
@@ -36,23 +37,31 @@ function HardcodedChart() {
   };
 
   return (
-    <div>
-      <h1>Data Visual</h1>
-      <button onClick={returnPreviousPage}>Go Back</button> {/* Button to return to the previous page */}
-      <button onClick={exportChart}>Export Chart as PNG</button> {/* Button to export chart as PNG */}
+    <div className="container">
+      <div className="box has-text-centered" style={{ backgroundColor: '#002a5e', color: 'white', padding: '2rem', borderRadius: '8px' }}>
+        <h1 className="title has-text-white">Data Visual</h1>
+        <div className="buttons is-centered">
+          <button className="button is-link" onClick={returnPreviousPage}>Go Back</button>
+          <button className="button is-info" onClick={exportChart}>Export Chart as PNG</button>
+        </div>
 
-      <div>
-        <label htmlFor="chartType">Select Chart Type: </label>
-        <select id="chartType" value={chartType} onChange={handleChartTypeChange}>
-          <option value="Line">Line Chart</option>
-          <option value="Bar">Bar Chart</option>
-          <option value="Pie">Pie Chart</option>
-          <option value="Area">Area Chart</option>
-        </select>
+        <div className="field is-grouped is-grouped-centered" style={{ marginTop: '20px' }}>
+          <label className="label has-text-white" htmlFor="chartType" style={{ marginRight: '10px' }}>Select Chart Type:</label>
+          <div className="control">
+            <div className="select is-info">
+              <select id="chartType" value={chartType} onChange={handleChartTypeChange}>
+                <option value="Line">Line Chart</option>
+                <option value="Bar">Bar Chart</option>
+                <option value="Pie">Pie Chart</option>
+                <option value="Area">Area Chart</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Chart container with ref to capture */}
-      <div ref={chartRef} style={{ position: 'relative', width: '100%', height: '400px' }}>
+      <div className="box" ref={chartRef} style={{ position: 'relative', width: '100%', height: '400px', backgroundColor: 'white' }}>
         <ResponsiveContainer width="100%" height="100%">
           {chartType === 'Line' && (
             <LineChart
@@ -137,3 +146,4 @@ function HardcodedChart() {
 }
 
 export default HardcodedChart;
+

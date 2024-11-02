@@ -7,14 +7,16 @@ import Home from './pages/Home';
 import Analytics from './pages/Analytics';
 import HardcodedChart from './pages/datavisual';
 
+
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/report' element={<Report />} />
-          <Route path='/analytics' element={<Analytics />} />
+
+          <Route path='/' element={<Login />}/>
+          <Route path='/home' element={<Home />}/>
+          <Route path='/analytics' element={<Analytics />}/>
           <Route path='/datavisual' element={<HardcodedChart />} /> {/* Corrected casing */}
 
         </Routes>
@@ -24,4 +26,5 @@ function App() {
 }
 
 export default App;
+
 
