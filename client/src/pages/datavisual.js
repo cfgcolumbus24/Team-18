@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import { LineChart, BarChart, PieChart, AreaChart, Line, Bar, Pie, Cell, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
+import salesData from './data.json';
+
 
 function HardcodedChart() {
   // Hardcoded data for the chart
-  const data = [
-    { month: 'January', sales: 400 },
-    { month: 'February', sales: 300 },
-    { month: 'March', sales: 500 },
-    { month: 'April', sales: 200 },
-    { month: 'May', sales: 700 }
-  ];
+    const data = salesData;
 
   const navigate = useNavigate();
 
