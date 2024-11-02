@@ -13,7 +13,7 @@ function Login() {
 
     // Validation for demo
     if (email === 'user@example.com' && password === 'password123') {
-      navigate('/home');
+      navigate('/dashboard');
     } else {
       setError('Invalid email or password');
     }
