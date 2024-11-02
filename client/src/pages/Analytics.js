@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Navbar from '../components/Navbar';
 import { useNavigate, useLocation } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
 import './analytics.css';
+import { FaArrowLeft } from 'react-icons/fa';
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.REACT_APP_API_KEY);
@@ -51,9 +51,9 @@ function Analytics() {
     }, [history]);
 
     return (
-        <div>
-            <Navbar />
-            <button className="button ml-4 has-background-info has-text-black" onClick={returnToPreviousPage}>Back</button>
+        <div className="mt-2">
+            <button className="button ml-4 is-link has-text-white" onClick={returnToPreviousPage}>            
+                <FaArrowLeft style={{ marginRight: '8px' }} /> Go Back</button>
             <h1 className="is-size-1 has-text-centered">AI Analysis</h1>
             <div className="chat-container" ref={chatContainerRef}>
 
