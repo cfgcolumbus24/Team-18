@@ -1,4 +1,41 @@
-import data from "./data/testData.json" with { type: "json" };
+import data from './data/dataColumns.json' with { type: "json" };
+
+import sqlite3 from "sqlite3";
+const sqlite = sqlite3.verbose();
+
+//Create database connection
+const db = new sqlite.Database("./patients.db", sqlite.OPEN_READWRITE, (err) => {
+    if (err) return console.error(err);
+})
+
+const sql = `select * from patients`
+
+const patientData = []
+
+//Some boilerplate from https://www.youtube.com/watch?v=ZRYn6tgnEgM&ab_channel=ByteMyke
+
+//Function to query the SQLite database and retrieve all of the existing patient records
+async function querySQL() {
+    return new Promise((resolve, reject) => {
+        db.all(sql, [], (err, rows) => {
+            if (err) return console.error(err.message);
+            rows.forEach(row => {
+                patientData.push(row); 
+            })
+            resolve()
+        })
+    })
+}
+
+//Function to format JSON data
+async function formatData() {
+    await querySQL();
+    data.tables = {
+        "patients": patientData
+    }
+}
+
+formatData()
 
 /**
  * Returns the column type of the given column name

@@ -1,0 +1,39 @@
+{
+    "columnTypes": {
+      "patients": [
+        {
+          "patientId": "number",
+          "name": "string",
+          "dob": "date",
+          "intakeDate": "date",
+          "dischargeDate": "date",
+          "dischargeType": [
+            "Full Recovery",
+            "Partial Recovery",
+            "Transferred",
+            "Discharged Against Medical Advice"
+          ],
+          "gender": [
+            "Male",
+            "Female",
+            "Non-binary",
+            "None provided"
+          ],
+          "sexualOrientation": [
+            "Heterosexual",
+            "Bisexual",
+            "Asexual",
+            "Lesbian"
+          ],
+          "race": [
+            "Caucasian",
+            "African American",
+            "Asian",
+            "Hispanic"
+          ],
+          "clinicianNotes": "string"
+        }
+      ]
+    }
+  }
+
