@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { LineChart, BarChart, PieChart, AreaChart, Line, Bar, Pie, Cell, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import salesData from './data.json';
 import Navbar from '../components/Navbar';
 
-
 function HardcodedChart() {
   // Hardcoded data for the chart
-    const data = salesData;
+    // const data = salesData;
+
+  //Get filtered patient data passed from home screen
+  const patientData = useLocation();
+  const data = JSON.stringify(patientData.state);
 
   const navigate = useNavigate();
 

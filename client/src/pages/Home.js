@@ -27,18 +27,6 @@ function Home() {
    });
 
 
-   // Navigate to data visualization page
-   const handleDataVisualClick = () => {
-       navigate("/datavisual");
-   };
-
-
-   // Navigate to analytics page
-   const handleAnalyticClick = () => {
-       navigate("/analytics");
-   };
-
-
    // Update filter values when input changes
    const handleFilterChange = (e) => {
        const { name, value } = e.target;
@@ -73,6 +61,17 @@ function Home() {
 
    // Accessing the patient data
    const data = testData.tables.patients;
+
+      // Navigate to data visualization page
+    const handleDataVisualClick = () => {
+       navigate("/datavisual", {state: data});
+   };
+
+
+   // Navigate to analytics page
+   const handleAnalyticClick = () => {
+       navigate("/analytics", {state: data});
+   };
 
 
    // Filter data based on active filters
