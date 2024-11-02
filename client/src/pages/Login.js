@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
-// import './Login.css'; // Uncomment this line if you add CSS for styling
 
 function Login() {
   const navigate = useNavigate();
@@ -12,7 +11,7 @@ function Login() {
   const handleLoginClick = (e) => {
     e.preventDefault();
 
-    //Validation for demo
+    // Validation for demo
     if (email === 'user@example.com' && password === 'password123') {
       navigate('/home');
     } else {
@@ -21,30 +20,48 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <h1>Login</h1>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleLoginClick}>
-        <div className="input-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div className="has-background-white" style={{ height: '100vh' }}>
+      <div className="columns is-centered is-vcentered" style={{ height: '100%' }}>
+        <div className="column is-half">
+          <div className="box" style={{ backgroundColor: '#003366', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)' }}>
+            <h1 className="title has-text-centered has-text-white">Netcare Access</h1>
+            {error && <p className="has-text-danger">{error}</p>}
+            <form onSubmit={handleLoginClick}>
+              <div className="field">
+                <label className="label" style={{ color: 'white' }}>Email:</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    style={{ backgroundColor: 'white', color: 'black' }} // White background for input
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <label className="label" style={{ color: 'white' }}>Password:</label>
+                <div className="control">
+                  <input
+                    className="input"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    style={{ backgroundColor: 'white', color: 'black' }} // White background for input
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <div className="control">
+                  <button className="button is-info is-fullwidth" type="submit">Log in</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-        <div className="input-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button class="button is-primary" type="submit">Log in</button>
-      </form>
+      </div>
     </div>
   );
 }
