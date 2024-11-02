@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Navbar from '../components/Navbar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
 import './analytics.css';
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -11,10 +11,16 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 function Analytics() {
     const navigate = useNavigate();
 
+    //Get filtered patient data passed from home screen
+    const patientData = useLocation();
+    const data = JSON.stringify(patientData.state);
+    console.log(data)
+
     const [query, setQuery] = useState('');
-    const [history, setMessageHistory] = useState([]);
+    const [history, setMessageHistory] = useState([{role: 'user', parts: [{text: data}]}]);
     const chatContainerRef = useRef(null);
 
+    //Return back to main page
     const returnToPreviousPage = () => {
         navigate("/home");
     };
@@ -50,11 +56,14 @@ function Analytics() {
             <button className="button ml-4 has-background-info has-text-black" onClick={returnToPreviousPage}>Back</button>
             <h1 className="is-size-1 has-text-centered">AI Analysis</h1>
             <div className="chat-container" ref={chatContainerRef}>
-                {history.map((message, index) => (
-                    <div key={index} className={`chat-bubble ${message.role}`}>
-                        <p className="is-size-5">{message.parts[0].text}</p>
-                    </div>
-                ))}
+
+                {history.map((message, index) => {
+                    if (index !== 0) {
+                        return(<div key={index} className={`chat-bubble ${message.role}`}>
+                            <p className="is-size-5">{message.parts[0].text}</p>
+                        </div>)
+                    }
+                })}
             </div>
             <div className="container mx-6 mt-3">
                 <div className="input-group">
